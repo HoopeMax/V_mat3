@@ -1,45 +1,73 @@
 #include<iostream>
 #include<math.h>
 
+void Metod_Gays(int m, int n, float** matrix);//Метод Гаусса
+void InputMat(int n, int m, float** matrix);//Вывод матриц 
+
 int main()
 {
 	setlocale(LC_ALL, "rus");
     int i, j, n, m;
     //создаем массив
-    std::cout << "Number of equations: ";
+    std::cout << "Количество уравнений: ";
     std::cin >> n;
-    std::cout << "Number of variables: ";
+    std::cout << "Количество переменных: ";
     std::cin >> m;
-    m += 1;
+    int mA = m;
+    m += 1;//Добавляем под вектор столбец
+    
     float** matrix = new float* [n];
     for (i = 0; i < n; i++)
         matrix[i] = new float[m];
 
-    //инициализируем
-
+    //Матрица А
+    float** matrixA = new float* [n];
     for (i = 0; i < n; i++)
+        matrixA[i] = new float[mA];
 
-        for (j = 0; j < m; j++)
-        {
-            std::cout << " Element " << "[" << i + 1 << " , " << j + 1 << "]: ";
-
-            std::cin >> matrix[i][j];
-        }
-
-    //выводим массив
-    std::cout << "matrix: " << std::endl;
+    //инициализируем
+    std::cout << std::endl << "Введите  АХ=В: " << std::endl;
     for (i = 0; i < n; i++)
     {
         for (j = 0; j < m; j++)
-            std::cout << matrix[i][j] << " ";
-            std::cout << std::endl;
+        {
+            std::cin >> matrix[i][j];
+        }
     }
     std::cout << std::endl;
 
+    //Матрица А
+    for (i = 0; i < n; i++)
+    {
+        for (j = 0; j < mA; j++)
+        {
+            matrixA[i][j] = matrix[i][j];
+        }
+    }
+
+    //выводим массив АХ=В
+    std::cout << "Матрица АХ=В: " << std::endl;
+    InputMat(n, m, matrix);
+ 
+    //выводим массив А
+    std::cout << "Матрица А : " << std::endl;
+    InputMat(n, mA, matrixA);
+
+    Metod_Gays(m, n, matrix);
+
+    delete[] matrix;
+    delete[] matrixA;
+    system("pause");
+
+	return 0;
+}
+
+void Metod_Gays(int m, int n, float** matrix)
+{
     //Метод Гаусса
     //Прямой ход, приведение к верхнетреугольному виду
     float  tmp;
-    int k;
+    int k, i, j;
     float* xx = new float[m];
 
     for (i = 0; i < n; i++)
@@ -66,9 +94,16 @@ int main()
     for (i = 0; i < n; i++)
         std::cout << xx[i] << " ";
     std::cout << std::endl;
+}
 
-    delete[] matrix;
-    system("pause");
-
-	return 0;
+void InputMat(int n, int m, float** matrix)
+{
+    std::cout << std::endl;
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < m; j++)
+            std::cout << matrix[i][j] << " ";
+        std::cout << std::endl;
+    }
+    std::cout << std::endl;
 }
